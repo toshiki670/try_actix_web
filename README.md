@@ -14,3 +14,5 @@ Add query to up.sql and down.sql
 
 $ diesel migration run
 
+# Run
+`$ cargo run`
