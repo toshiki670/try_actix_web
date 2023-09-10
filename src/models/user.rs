@@ -2,7 +2,9 @@ use crate::models::establish_connection;
 use crate::schema::users;
 use diesel::prelude::*;
 
-#[derive(Debug, Queryable)]
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Queryable, Serialize, Deserialize)]
 pub struct User {
     pub id: i32,
     pub name: String,
@@ -15,6 +17,15 @@ pub struct NewUser<'a> {
 }
 
 impl User {
+    pub fn find(user_id: i32) -> Result<User, diesel::result::Error> {
+        let connection = &mut establish_connection();
+
+        use self::users::id;
+        let user = users::dsl::users.filter(id.eq(user_id)).first(connection)?;
+
+        Ok(user)
+    }
+
     pub fn all() -> Vec<User> {
         let connection = &mut establish_connection();
         users::dsl::users
