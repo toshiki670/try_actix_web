@@ -9,5 +9,6 @@
             "database": "try_actix_web",
             "username": "t"
         }
-    ]
+    ],
+    "editor.formatOnSave": true
 }
