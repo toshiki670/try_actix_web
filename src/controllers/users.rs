@@ -7,11 +7,14 @@ use serde::{Deserialize, Serialize};
 
 use simplelog::*;
 
-pub async fn show(path: web::Path<(i32)>) -> HttpResponse {
-    let id = path.into_inner();
-    info!("[BEGIN] show: id: {}", id);
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ShowParams {
+    id: i32,
+}
+pub async fn show(path: web::Path<ShowParams>) -> HttpResponse {
+    info!("[BEGIN] show: id: {:?}", &path);
 
-    let res = match User::find(id) {
+    let res = match User::find(path.id) {
         Ok(user) => HttpResponse::Ok().json(user),
         Err(err) => HttpResponse::Ok().json(ErrorResponse {
             message: err.to_string(),
@@ -24,15 +27,20 @@ pub async fn show(path: web::Path<(i32)>) -> HttpResponse {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct UserData {
+pub struct CreateParams {
     name: String,
 }
-
-pub async fn create(item: web::Json<UserData>) -> HttpResponse {
+pub async fn create(item: web::Json<CreateParams>) -> HttpResponse {
     info!("[BEGIN] create");
-    let user = User::create(&(item.name));
-    info!("Created user info: {:?}", user);
+
+    let res = match User::create(&(item.name)) {
+        Ok(user) => HttpResponse::Ok().json(user),
+        Err(err) => HttpResponse::Ok().json(ErrorResponse {
+            message: err.to_string(),
+        }),
+    };
 
     info!("[END] create");
-    HttpResponse::Created().body("Inserting")
+
+    res
 }
