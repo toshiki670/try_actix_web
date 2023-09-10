@@ -1,16 +1,12 @@
-use actix_web::{App, HttpServer};
 pub mod controllers;
-pub mod models;
 pub mod routes;
 
+pub mod models;
 pub mod schema;
 
-extern crate diesel;
-extern crate dotenv;
+use actix_web::{App, HttpServer};
 
 // https://crates.io/crates/simplelog
-extern crate log;
-extern crate simplelog;
 use simplelog::*;
 use std::fs::File;
 

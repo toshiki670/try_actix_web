@@ -10,7 +10,6 @@ use simplelog::*;
 pub async fn show(path: web::Path<(i32)>) -> HttpResponse {
     let id = path.into_inner();
     info!("[BEGIN] show: id: {}", id);
-    let user = User::find(id);
 
     let res = match User::find(id) {
         Ok(user) => HttpResponse::Ok().json(user),
