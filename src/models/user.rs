@@ -32,6 +32,8 @@ impl User {
             .values(&new_user)
             .execute(connection)
             .expect("Error saving new user");
+
+        // 保存したレコードを返す
         users::dsl::users
             .order(id.desc())
             .first::<User>(connection)
@@ -39,5 +41,3 @@ impl User {
     }
 
 }
-
-//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
