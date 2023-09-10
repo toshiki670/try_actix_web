@@ -1,4 +1,5 @@
 extern crate diesel;
+use crate::controllers::ErrorResponse;
 
 use crate::models::user::User;
 use actix_web::{web, HttpRequest, HttpResponse, Responder};
