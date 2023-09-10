@@ -1,6 +1,6 @@
-use diesel::prelude::*;
-use crate::schema::users;
 use crate::models::establish_connection;
+use crate::schema::users;
+use diesel::prelude::*;
 
 #[derive(Debug, Queryable)]
 pub struct User {
@@ -11,7 +11,6 @@ pub struct User {
 #[derive(Insertable)]
 #[table_name = "users"]
 pub struct NewUser<'a> {
-
     name: &'a str,
 }
 
@@ -39,5 +38,4 @@ impl User {
             .first::<User>(connection)
             .expect("Error finding users")
     }
-
 }
